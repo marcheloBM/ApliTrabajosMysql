@@ -1,2 +1,2 @@
-# ApliTrabajosMysql
-Registro de trabajos por MySQL
+# ApliTrabajos
+Registro de trabajos
