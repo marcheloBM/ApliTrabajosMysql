@@ -1,5 +1,6 @@
 package Cl.Burgos.Trabajos.GUI;
 
+import Cl.Burgos.Trabajos.BD.Log;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ public class GitHubReleaseGUI {
         frame.setSize(650, 550);
         frame.setLocationRelativeTo(null);
 
-        JTextField repoField = new JTextField("https://github.com/marcheloBM/ActualizacionAPP");
+        JTextField repoField = new JTextField("https://github.com/marcheloBM/ApliTrabajosMysql");
         JButton fetchButton = new JButton("Consultar Release");
         JButton downloadButton = new JButton("Descargar archivo");
         JButton openGitHubButton = new JButton("Ver en GitHub");
@@ -165,6 +166,7 @@ public class GitHubReleaseGUI {
             return result.toString();
 
         } catch (Exception e) {
+            Log.log("❌ Error: " + e.getMessage());
             return "❌ Error: " + e.getMessage();
         }
     }
@@ -204,6 +206,7 @@ public class GitHubReleaseGUI {
             return isNewerVersion(versionActual.replaceFirst("^v", ""), tag.replaceFirst("^v", ""));
 
         } catch (Exception e) {
+             Log.log("❌ Error al verificar versión: " + e.getMessage());
             System.err.println("❌ Error al verificar versión: " + e.getMessage());
             return false;
         }

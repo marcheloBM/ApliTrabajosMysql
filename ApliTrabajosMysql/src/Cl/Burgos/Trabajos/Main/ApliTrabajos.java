@@ -5,6 +5,7 @@
  */
 package Cl.Burgos.Trabajos.Main;
 
+import Cl.Burgos.Trabajos.BD.Log;
 import Cl.Burgos.Trabajos.FUN.Directorio;
 import Cl.Burgos.Trabajos.GUI.FrHome;
 import Cl.Burgos.Trabajos.GUI.GitHubReleaseGUI;
@@ -20,8 +21,8 @@ public class ApliTrabajos {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String repo = "https://github.com/marcheloBM/ActualizacionAPP";
-        String versionActual = "2.0";
+        String repo = "https://github.com/marcheloBM/ApliTrabajosMysql";
+        String versionActual = "2.1";
 
         if (GitHubReleaseGUI.hayNuevaVersion(repo, versionActual)) {
             System.out.println("🟢 Hay una nueva versión disponible.");
