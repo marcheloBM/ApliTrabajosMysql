@@ -7,6 +7,7 @@ package Cl.Burgos.Trabajos.Main;
 
 import Cl.Burgos.Trabajos.FUN.Directorio;
 import Cl.Burgos.Trabajos.GUI.FrHome;
+import Cl.Burgos.Trabajos.GUI.GitHubReleaseGUI;
 
 /**
  *
@@ -19,9 +20,17 @@ public class ApliTrabajos {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Directorio.crearDirecPre();
-        FrHome home = new FrHome();
-        home.setVisible(true);
-    }
-    
+        String repo = "https://github.com/marcheloBM/ActualizacionAPP";
+        String versionActual = "2.0";
+
+        if (GitHubReleaseGUI.hayNuevaVersion(repo, versionActual)) {
+            System.out.println("🟢 Hay una nueva versión disponible.");
+            GitHubReleaseGUI.main(args);
+        } else {
+            System.out.println("✅ Estás usando la última versión.");
+            Directorio.crearDirecPre();
+            FrHome home = new FrHome();
+            home.setVisible(true);
+        }
+    }    
 }

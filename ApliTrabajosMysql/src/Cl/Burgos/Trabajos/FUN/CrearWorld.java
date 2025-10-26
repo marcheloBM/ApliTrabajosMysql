@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cl.Burgos.Trabajos.FUN;;
+package Cl.Burgos.Trabajos.FUN;
 
 import java.awt.Desktop;
 import java.io.File;
