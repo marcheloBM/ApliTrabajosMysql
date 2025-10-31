@@ -1,6 +1,7 @@
 package Cl.Burgos.Trabajos.GUI;
 
 import Cl.Burgos.Trabajos.BD.Log;
+import Cl.Burgos.Trabajos.Config.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,7 @@ public class GitHubReleaseGUI {
         frame.setSize(650, 550);
         frame.setLocationRelativeTo(null);
 
-        JTextField repoField = new JTextField("https://github.com/marcheloBM/ApliTrabajosMysql");
+        JTextField repoField = new JTextField(Confi.repositorio);
         JButton fetchButton = new JButton("Consultar Release");
         JButton downloadButton = new JButton("Descargar archivo");
         JButton openGitHubButton = new JButton("Ver en GitHub");
@@ -206,7 +207,7 @@ public class GitHubReleaseGUI {
             return isNewerVersion(versionActual.replaceFirst("^v", ""), tag.replaceFirst("^v", ""));
 
         } catch (Exception e) {
-             Log.log("❌ Error al verificar versión: " + e.getMessage());
+            Log.log("❌ Error al verificar versión: " + e.getMessage());
             System.err.println("❌ Error al verificar versión: " + e.getMessage());
             return false;
         }
@@ -224,5 +225,36 @@ public class GitHubReleaseGUI {
         }
         return false;
     }
+    public static String obtenerUltimaVersion(String repoUrl) {
+        try {
+            String[] parts = repoUrl.replace("https://github.com/", "").split("/");
+            if (parts.length < 2) return null;
 
+            String owner = parts[0];
+            String repo = parts[1];
+            String apiUrl = "https://api.github.com/repos/" + owner + "/" + repo + "/releases/latest";
+
+            URI uri = new URI(apiUrl);
+            URL url = uri.toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder json = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                json.append(line);
+            }
+            reader.close();
+
+            String tag = extractValue(json.toString(), "\"tag_name\":\"");
+            return tag.replaceFirst("^v", "").trim(); // Limpia el prefijo "v" si existe
+
+        } catch (Exception e) {
+            Log.log("❌ Error al obtener versión remota: " + e.getMessage());
+            System.err.println("❌ Error al obtener versión remota: " + e.getMessage());
+            return null;
+        }
+    }
 }
